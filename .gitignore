@@ -1,13 +1,20 @@
-# Windows thumbnail cache and desktop config
+# Operating System Files
 Thumbs.db
 ehthumbs.db
 Desktop.ini
+.DS_Store
 
-# Temporary files
+# Temporary & Archive Files
 *.tmp
 *.temp
 *.bak
+*.rar
+*.zip
+*.7z
 
-# VS Code / Editor config
+# Editor & IDE Directories
 .vscode/
 .idea/
+
+# Vercel Cache
+.vercel
