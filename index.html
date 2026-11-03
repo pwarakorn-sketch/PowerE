@@ -68,8 +68,14 @@
       </div>
     </div>
 
-    <!-- Right Quick Actions: User Profile Pill, Gradebook, Sound, Cert -->
+    <!-- Right Quick Actions -->
     <div class="flex items-center gap-2 md:gap-3">
+      <!-- Data Backup & Sync Quick Button -->
+      <button onclick="App.openBackupModal()" title="สำรองและอัปเดตข้อมูลบทเรียน" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-300 hover:text-sky-300 border border-slate-700/80 transition flex items-center gap-1.5 text-xs">
+        <i data-lucide="database" class="w-4 h-4 text-purple-400"></i>
+        <span class="hidden xl:inline">อัปเดตข้อมูล</span>
+      </button>
+
       <!-- User Profile & Gradebook Quick Pill -->
       <div id="header-user-widget" class="flex items-center">
         <!-- Rendered by App.renderUserHeader() -->
@@ -134,6 +140,10 @@
             <i data-lucide="calculator" class="w-4 h-4 text-purple-400"></i>
             <span>คลังสูตรคำนวณสรุป</span>
           </button>
+          <button onclick="App.openBackupModal()" class="w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-2.5 text-slate-400 hover:bg-slate-800 hover:text-purple-300 transition">
+            <i data-lucide="database" class="w-4 h-4 text-purple-400"></i>
+            <span>สำรอง & นำเข้าข้อมูล (JSON)</span>
+          </button>
         </div>
 
         <!-- 10 Units List -->
@@ -161,6 +171,33 @@
     </main>
   </div>
 
+  <!-- Unit Content Editor Modal: Content, Images, Videos -->
+  <div id="unit-editor-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="relative w-full max-w-4xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden my-8 max-h-[90vh] flex flex-col">
+      <div id="unit-editor-modal-body" class="overflow-y-auto p-6 md:p-8">
+        <!-- Rendered by App.openUnitEditor() -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile Editor Modal -->
+  <div id="profile-editor-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden my-8">
+      <div id="profile-editor-modal-body">
+        <!-- Rendered by App.openProfileEditor() -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Backup & Data Update Modal -->
+  <div id="backup-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="relative w-full max-w-xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden my-8">
+      <div id="backup-modal-body">
+        <!-- Rendered by App.openBackupModal() -->
+      </div>
+    </div>
+  </div>
+
   <!-- Auth Modal: Login & Registration -->
   <div id="auth-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
     <div class="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden my-8">
@@ -178,6 +215,9 @@
       </div>
     </div>
   </div>
+
+  <!-- Hidden File Input for Data Import -->
+  <input type="file" id="import-json-input" accept=".json" class="hidden" onchange="App.handleImportFile(event)" />
 
   <!-- Scripts -->
   <script src="js/data/units.js"></script>
