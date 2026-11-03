@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="th" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ระบบการเรียนรู้อิเล็กทรอนิกส์กำลัง (20105-2013) - 10 หน่วยการเรียนรู้และแบบฝึกหัด 100 ข้อ</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            slate: {
+              850: '#151e2e',
+              950: '#070d18',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- KaTeX for Engineering Math Equations -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-sky-500 selection:text-white">
+
+  <!-- Mobile Overlay -->
+  <div id="mobile-overlay" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-40 hidden md:hidden"></div>
+
+  <!-- Top Navigation Header -->
+  <header class="sticky top-0 z-30 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 h-16 flex items-center px-4 md:px-6 justify-between gap-4">
+    <!-- Brand / Logo & Mobile Menu Toggle -->
+    <div class="flex items-center gap-3">
+      <button id="mobile-menu-btn" class="md:hidden p-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+      </button>
+      <div class="flex items-center gap-2.5 cursor-pointer" onclick="App.navigateToView('overview')">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-sky-500 to-cyan-400 flex items-center justify-center text-slate-950 font-black shadow-lg shadow-sky-500/20">
+          <i data-lucide="zap" class="w-5 h-5 fill-slate-950"></i>
+        </div>
+        <div>
+          <div class="font-extrabold text-sm md:text-base tracking-tight text-white flex items-center gap-1.5">
+            อิเล็กทรอนิกส์กำลัง
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-400 border border-sky-500/30 font-mono hidden sm:inline-block">20105-2013</span>
+          </div>
+          <div class="text-[10px] text-slate-400 hidden sm:block">หลักสูตร ปวช. สาขาวิชาช่างอิเล็กทรอนิกส์ • 10 หน่วยการเรียนรู้</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Center Search Bar -->
+    <div class="flex-1 max-w-md hidden lg:block">
+      <div class="relative">
+        <i data-lucide="search" class="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2"></i>
+        <input id="search-input" type="text" placeholder="ค้นหาบทเรียน, วงจร, ไดโอด, SCR, อินเวอร์เตอร์, คอนเวอร์เตอร์..." class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-4 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-sky-500/60 transition" />
+      </div>
+    </div>
+
+    <!-- Right Quick Actions: User Profile Pill, Gradebook, Sound, Cert -->
+    <div class="flex items-center gap-2 md:gap-3">
+      <!-- User Profile & Gradebook Quick Pill -->
+      <div id="header-user-widget" class="flex items-center">
+        <!-- Rendered by App.renderUserHeader() -->
+      </div>
+
+      <!-- Sound toggle button -->
+      <button id="sound-toggle-btn" class="px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-750 border border-slate-700/80 flex items-center gap-1.5 transition">
+        <i data-lucide="volume-2" class="w-4 h-4 text-emerald-400"></i>
+        <span class="text-xs text-slate-300 hidden md:inline">เสียง: เปิด</span>
+      </button>
+
+      <!-- Certificate Quick Button -->
+      <button onclick="App.openCertificateModal()" class="px-3 py-1.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-300 text-xs font-semibold flex items-center gap-1.5 transition">
+        <i data-lucide="award" class="w-4 h-4 text-amber-400"></i>
+        <span class="hidden sm:inline">ใบประกาศฯ</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Body Layout: Sidebar + Content Area -->
+  <div class="flex-1 flex max-w-7xl w-full mx-auto">
+    
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="fixed md:sticky top-16 z-40 md:z-10 h-[calc(100vh-4rem)] w-72 bg-slate-950 md:bg-transparent border-r border-slate-800/80 p-4 overflow-y-auto transition-transform duration-300 -translate-x-full md:translate-x-0 shrink-0 flex flex-col justify-between">
+      <div class="space-y-5">
+        <!-- Student Quick Card Widget in Sidebar -->
+        <div id="sidebar-student-card" class="p-3 bg-gradient-to-r from-slate-900 to-sky-950/40 border border-slate-800 rounded-2xl cursor-pointer hover:border-sky-500/40 transition" onclick="App.navigateToView('gradebook')">
+          <!-- Rendered by App.renderSidebarStudentCard() -->
+        </div>
+
+        <!-- Progress Widget -->
+        <div class="p-3 bg-slate-900 border border-slate-800 rounded-2xl shadow-sm">
+          <div class="flex items-center justify-between text-xs font-semibold mb-2">
+            <span class="text-slate-300">ความก้าวหน้ารายวิชา</span>
+            <span id="global-progress-text" class="text-sky-400 font-bold">0% (0/10 หน่วย)</span>
+          </div>
+          <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+            <div id="global-progress-bar" class="bg-gradient-to-r from-sky-500 to-cyan-400 h-full rounded-full transition-all duration-300" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <!-- Main Views Navigation Links -->
+        <div class="space-y-1">
+          <div class="px-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">เมนูหลัก</div>
+          <button onclick="App.navigateToView('overview')" class="w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-2.5 text-slate-300 hover:bg-slate-800 hover:text-white transition">
+            <i data-lucide="home" class="w-4 h-4 text-sky-400"></i>
+            <span>ภาพรวมรายวิชา</span>
+          </button>
+          <button onclick="App.navigateToView('gradebook')" class="w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-2.5 text-slate-300 hover:bg-slate-800 hover:text-white transition">
+            <i data-lucide="bar-chart-2" class="w-4 h-4 text-amber-400"></i>
+            <span class="text-amber-300">ดูคะแนนเก็บ & ประวัติการเรียน</span>
+          </button>
+          <button onclick="App.navigateToView('all-quizzes')" class="w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-2.5 text-slate-300 hover:bg-slate-800 hover:text-white transition">
+            <i data-lucide="check-square" class="w-4 h-4 text-emerald-400"></i>
+            <span>แบบฝึกหัดครบ 100 ข้อ</span>
+          </button>
+          <button onclick="App.navigateToView('simulators')" class="w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-2.5 text-slate-300 hover:bg-slate-800 hover:text-white transition">
+            <i data-lucide="cpu" class="w-4 h-4 text-cyan-400"></i>
+            <span>ห้องทดลองจำลองวงจร</span>
+          </button>
+          <button onclick="App.navigateToView('formulas')" class="w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-2.5 text-slate-300 hover:bg-slate-800 hover:text-white transition">
+            <i data-lucide="calculator" class="w-4 h-4 text-purple-400"></i>
+            <span>คลังสูตรคำนวณสรุป</span>
+          </button>
+        </div>
+
+        <!-- 10 Units List -->
+        <div>
+          <div class="px-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center justify-between">
+            <span>หน่วยการเรียนรู้ (1-10)</span>
+            <span class="text-[10px] text-sky-400 font-mono">10 หน่วย</span>
+          </div>
+          <ul id="sidebar-units-list" class="space-y-1">
+            <!-- Rendered by App.renderSidebar() -->
+          </ul>
+        </div>
+      </div>
+
+      <!-- Sidebar Footer -->
+      <div class="pt-4 border-t border-slate-800/80 text-[11px] text-slate-500 text-center">
+        วิชาอิเล็กทรอนิกส์กำลัง (20105-2013)<br>
+        สอศ. • อาชีวศึกษาไทย
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main id="main-content-area" class="flex-1 p-4 md:p-8 overflow-x-hidden min-w-0">
+      <!-- Dynamic view rendered by App.renderCurrentView() -->
+    </main>
+  </div>
+
+  <!-- Auth Modal: Login & Registration -->
+  <div id="auth-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden my-8">
+      <div id="auth-modal-body">
+        <!-- Rendered by App.openAuthModal() -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Certificate Modal -->
+  <div id="certificate-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="relative w-full max-w-4xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden my-8">
+      <div id="certificate-modal-body">
+        <!-- Rendered by App.openCertificateModal() -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data/units.js"></script>
+  <script src="js/data/quizzes.js"></script>
+  <script src="js/simulators.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
